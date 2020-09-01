@@ -1,0 +1,13 @@
+log_level = "DEBUG"
+datacenter = "default"
+data_dir = "/tmp/client"
+name = "{{ ansible_hostname }}"
+client {
+    enabled = true
+    network_interface = "{{ nomad_network_interface }}"
+    servers = [
+        {%- for server in nomad_servers -%}
+        "{{ server }}:4647"{{ "," if not loop.last }}
+        {%- endfor -%}
+    ]
+}

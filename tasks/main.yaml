@@ -1,0 +1,44 @@
+---
+- name: installing nomad binary package
+  unarchive:
+    src: "https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_linux_amd64.zip"
+    dest: /usr/local/bin
+    remote_src: yes
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: adding systemd unit file
+  template:
+    src: nomad.service.j2
+    dest: /lib/systemd/system/nomad.service
+    owner: root
+    group: root
+  notify:
+    - enable nomad service
+
+- name: adding config directory to the nomad instances
+  file:
+    state: directory
+    path: /etc/nomad.d
+    owner: root
+    group: root
+
+- name: adding server config file to server instances
+  template:
+    src: server.hcl.j2
+    dest: /etc/nomad.d/server.hcl
+    owner: root
+    group: root
+  when: hostvars[inventory_hostname]['ansible_%s' | format(nomad_network_interface)][nomad_ip_version]['address'] in nomad_servers
+  notify:
+    - restart nomad service
+
+- name: adding client config file to client instances
+  template:
+    src: client.hcl.j2
+    dest: /etc/nomad.d/client.hcl
+    owner: root
+    group: root
+  notify:
+    - restart nomad service

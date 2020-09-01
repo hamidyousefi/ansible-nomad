@@ -1,0 +1,10 @@
+---
+- name: enable nomad service
+  systemd:
+    name: nomad.service
+    enabled: yes
+
+- name: restart nomad service
+  systemd:
+    name: nomad.service
+    state: restarted
