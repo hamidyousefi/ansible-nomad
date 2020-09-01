@@ -21,3 +21,11 @@ galaxy_info:
     - nomad
     - orchestrator
     - system
+
+dependencies:
+  - role: hamidyousefi.docker
+    vars:
+      extensions:
+        compose: no
+      config:
+        iptables: no
