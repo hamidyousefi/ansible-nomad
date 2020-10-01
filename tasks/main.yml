@@ -37,7 +37,8 @@
     dest: /etc/nomad.d/server.hcl
     owner: root
     group: root
-  when: hostvars[inventory_hostname]['ansible_%s' | format(nomad_network_interface)][nomad_ip_version]['address'] in nomad_servers
+  when: item.ip == hostvars[inventory_hostname]['ansible_%s' | format(nomad_network_interface)][nomad_ip_version]['address']
+  loop: "{{ nomad_servers }}"
   notify:
     - restart nomad service
 

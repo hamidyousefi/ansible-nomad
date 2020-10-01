@@ -1,4 +1,4 @@
-# Hashicorp Nomad Anisble Role
+# Hashicorp Nomad Ansible Role
 Hashicorp is one of the most brilliant companies focused on infrastructure services. I like them and using their
 products on my personal or enterprise projects, so having solid defined Ansible roles for installing
 and setting up them would make everything easier.
