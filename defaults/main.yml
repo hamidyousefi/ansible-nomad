@@ -1,2 +1,6 @@
 ---
 nomad_version: 0.12.5
+nomad_servers:
+  - ip: 127.0.0.1
+    port: 4647
+nomad_network_interface: ens3

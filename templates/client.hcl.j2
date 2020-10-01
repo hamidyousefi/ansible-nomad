@@ -7,7 +7,7 @@ client {
     network_interface = "{{ nomad_network_interface }}"
     servers = [
         {%- for server in nomad_servers -%}
-        "{{ server }}:4647"{{ "," if not loop.last }}
+        "{{ server.ip }}:{{ server.port }}"{{ "," if not loop.last }}
         {%- endfor -%}
     ]
 }
