@@ -19,7 +19,7 @@ You can create this file if your playbook doesn't have it yet.
   version: master
 ```
 Of course `master` is the most updated version of this role. You should prefer to 
-define which version you are going to use just by replacing it with something like `v1.0.1`.
+define which version you are going to use just by replacing it with something like `v1.0.2`.
 You can find the versions list and their changelogs from [releases page](https://github.com/hamidyousefi/ansible-nomad/releases).
 
 ## Default Variables

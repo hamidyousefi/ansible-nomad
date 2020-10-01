@@ -17,15 +17,15 @@ galaxy_info:
         - bionic
         - focal
   galaxy_tags:
+    - linux
     - hashicorp
     - nomad
     - orchestrator
     - system
-
 dependencies:
   - role: hamidyousefi.docker
+    version: v1.0.0
     vars:
-      extensions:
-        compose: no
-      config:
+      configure:
         iptables: no
+        compose: no
