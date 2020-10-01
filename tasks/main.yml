@@ -1,4 +1,11 @@
 ---
+- name: installing necessary packages
+  apt:
+    name: unzip
+    update_cache: yes
+    state: present
+    force_apt_get: yes
+
 - name: installing nomad binary package
   unarchive:
     src: "https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_linux_amd64.zip"
