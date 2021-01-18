@@ -1,15 +1,26 @@
-datacenter = "default"
+log_level = "{{ nomad_log_level }}"
+datacenter = "{{ nomad_datacenter }}"
 data_dir = "/var/lib/nomad"
-bind_addr = "{{ hostvars[inventory_hostname]['ansible_%s' | format(nomad_network_interface)][nomad_ip_version]['address'] }}"
-name = "{{ ansible_hostname }}"
+bind_addr = "{{ ansible_host }}"
+name = "{{ inventory_hostname }}"
 
 advertise {
-  http = "{{ hostvars[inventory_hostname]['ansible_%s' | format(nomad_network_interface)][nomad_ip_version]['address'] }}"
-  rpc = "{{ hostvars[inventory_hostname]['ansible_%s' | format(nomad_network_interface)][nomad_ip_version]['address'] }}"
-  serf = "{{ hostvars[inventory_hostname]['ansible_%s' | format(nomad_network_interface)][nomad_ip_version]['address'] }}"
+  http = "{{ ansible_host }}"
+  rpc = "{{ ansible_host }}"
+  serf = "{{ ansible_host }}"
 }
 
 server {
   enabled = true
-  bootstrap_expect = 1
+  bootstrap_expect = {{ groups[nomad_servers_host_group] | length }}
+
+  server_join {
+    retry_join = [
+      {% for host in groups[nomad_servers_host_group] %}
+      {{ host.ansible_host }}{{ "," if not loop.last }}
+      {% endfor %}
+    ]
+    retry_max = 3
+    retry_interval = "15s"
+  }
 }

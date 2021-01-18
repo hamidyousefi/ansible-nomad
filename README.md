@@ -24,7 +24,7 @@ You can find the versions list and their changelogs from [releases page](https:/
 
 ## Default Variables
 ```yaml
-nomad_version: 0.12.5
+nomad_version: 1.0.1
 nomad_servers:
   - ip: 127.0.0.1
     port: 4647

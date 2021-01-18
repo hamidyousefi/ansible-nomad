@@ -24,8 +24,4 @@ galaxy_info:
     - system
 dependencies:
   - role: hamidyousefi.docker
-    version: v1.0.0
-    vars:
-      configure:
-        iptables: no
-        compose: no
+    version: v1.3.1

@@ -1,7 +1,6 @@
 ---
-nomad_version: 0.12.5
-nomad_servers:
-  - ip: 127.0.0.1
-    port: 4647
-nomad_network_interface: ens3
-nomad_ip_version: ipv4
+nomad_log_level: INFO
+nomad_datacenter: default
+nomad_servers_host_group: nomad_servers
+nomad_version: 1.0.1
+nomad_network_interface: eth0

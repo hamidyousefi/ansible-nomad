@@ -22,7 +22,7 @@
     owner: root
     group: root
   notify:
-    - enable nomad service
+    - enable and restart nomad service
 
 - name: adding config directory to the nomad instances
   file:
@@ -37,10 +37,9 @@
     dest: /etc/nomad.d/server.hcl
     owner: root
     group: root
-  when: item.ip == hostvars[inventory_hostname]['ansible_%s' | format(nomad_network_interface)][nomad_ip_version]['address']
-  loop: "{{ nomad_servers }}"
+  when: nomad_servers_host_group in group_names
   notify:
-    - restart nomad service
+    - enable and restart nomad service
 
 - name: adding client config file to client instances
   template:
@@ -48,5 +47,6 @@
     dest: /etc/nomad.d/client.hcl
     owner: root
     group: root
+  when: nomad_servers_host_group not in group_names
   notify:
-    - restart nomad service
+    - enable and restart nomad service
