@@ -1,13 +1,14 @@
 log_level = "{{ nomad_log_level }}"
 datacenter = "{{ nomad_datacenter }}"
 data_dir = "/tmp/client"
-name = "{{ ansible_hostname }}"
+name = "{{ inventory_hostname }}"
+
 client {
   enabled = true
   network_interface = "{{ nomad_network_interface }}"
   servers = [
     {%- for server in groups[nomad_servers_host_group] -%}
-    "{{ server.ansible_host }}:{{ server.ansible_port }}"{{ "," if not loop.last }}
+    "{{ hostvars[server].ansible_host }}"{{ ", " if not loop.last }}
     {%- endfor -%}
   ]
 }
