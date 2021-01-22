@@ -4,3 +4,4 @@
     name: nomad.service
     enabled: yes
     state: restarted
+    daemon_reload: yes
