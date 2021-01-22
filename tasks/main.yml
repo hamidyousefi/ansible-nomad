@@ -24,19 +24,42 @@
   notify:
     - enable and restart nomad service
 
-- name: adding config directory to the nomad instances
+- name: create nomad group
+  group:
+    name: nomad
+    system: yes
+    state: present
+
+- name: create nomad user
+  user:
+    name: nomad
+    group: nomad
+    groups:
+      - nomad
+      - docker
+    system: yes
+    home: /etc/nomad.d
+    shell: /bin/false
+    comment: "Nomad Service User"
+
+- name: create necessary directories
   file:
+    path: "{{ item }}"
     state: directory
-    path: /etc/nomad.d
-    owner: root
-    group: root
+    owner: nomad
+    group: nomad
+    mode: '0755'
+  with_items:
+    - /etc/nomad.d
+    - /var/lib/nomad
+    - /var/log/nomad
 
 - name: adding server config file to server instances
   template:
     src: server.hcl.j2
     dest: /etc/nomad.d/server.hcl
-    owner: root
-    group: root
+    owner: nomad
+    group: nomad
   when: nomad_servers_host_group in group_names
   notify:
     - enable and restart nomad service
@@ -45,8 +68,8 @@
   template:
     src: client.hcl.j2
     dest: /etc/nomad.d/client.hcl
-    owner: root
-    group: root
+    owner: nomad
+    group: nomad
   when: nomad_servers_host_group not in group_names
   notify:
     - enable and restart nomad service

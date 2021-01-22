@@ -5,7 +5,7 @@ name                    = "{{ inventory_hostname }}"
 
 log_level               = "{{ nomad_logs_level }}"
 log_file                = "/var/log/nomad/"
-log_rotate_duration     = {{ nomad_logs_rotation }}
+log_rotate_duration     = "{{ nomad_logs_rotation }}"
 log_rotate_max_files    = {{ nomad_logs_max_files }}
 
 advertise {

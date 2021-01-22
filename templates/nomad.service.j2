@@ -7,6 +7,8 @@ After=network-online.target
 [Service]
 ExecReload=/bin/kill -HUP $MAINPID
 ExecStart=/usr/local/bin/nomad agent -config /etc/nomad.d
+User=nomad
+Group=nomad
 KillMode=process
 KillSignal=SIGINT
 LimitNOFILE=infinity
@@ -14,7 +16,7 @@ LimitNPROC=infinity
 Restart=on-failure
 RestartSec=2
 StartLimitBurst=3
-StartLimitIntervalSec=10
+StartLimitInterval=10
 TasksMax=infinity
 
 [Install]
