@@ -1,26 +1,30 @@
-log_level = "{{ nomad_log_level }}"
-datacenter = "{{ nomad_datacenter }}"
-data_dir = "/var/lib/nomad"
-bind_addr = "0.0.0.0"
-name = "{{ inventory_hostname }}"
+datacenter              = "{{ nomad_datacenter }}"
+data_dir                = "/var/lib/nomad"
+bind_addr               = "0.0.0.0"
+name                    = "{{ inventory_hostname }}"
+
+log_level               = "{{ nomad_logs_level }}"
+log_file                = "/var/log/nomad/"
+log_rotate_duration     = {{ nomad_logs_rotation }}
+log_rotate_max_files    = {{ nomad_logs_max_files }}
 
 advertise {
-  http = "{{ ansible_host }}"
-  rpc = "{{ ansible_host }}"
-  serf = "{{ ansible_host }}"
+  http                  = "{{ ansible_host }}"
+  rpc                   = "{{ ansible_host }}"
+  serf                  = "{{ ansible_host }}"
 }
 
 server {
-  enabled = true
-  bootstrap_expect = {{ groups[nomad_servers_host_group] | length }}
+  enabled               = true
+  bootstrap_expect      = {{ groups[nomad_servers_host_group] | length }}
 
   server_join {
-    retry_join = [
+    retry_join          = [
       {% for host in groups[nomad_servers_host_group] %}
       "{{ hostvars[host].ansible_host }}"{{ "," if not loop.last }}
       {% endfor %}
     ]
-    retry_max = 3
-    retry_interval = "15s"
+    retry_max           = 3
+    retry_interval      = "15s"
   }
 }
